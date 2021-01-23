@@ -1,8 +1,12 @@
 import React from 'react';
-import Task from '../../components/Task';
+import Tasks from '../../components/Tasks';
 
 const Home = () => {
-  return <Task />;
+  return (
+    <>
+      <Tasks />
+    </>
+  );
 };
 
 export default Home;
