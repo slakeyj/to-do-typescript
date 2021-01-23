@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AddTask from '../AddTask';
-
-type Task = {
-  id: number;
-  text: string;
-  difficulty: string;
-  status: boolean;
-};
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Task } from '../../types';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -26,16 +22,20 @@ const Tasks = () => {
   return (
     <>
       <AddTask onAdd={fetchData} />
-      <ul>
-        {tasks.map(task => {
-          return (
-            <>
-              <li key={task.text}>{task.text}</li>
-              <button>Update Status</button>
-            </>
-          );
-        })}
-      </ul>
+      <Box display='flex' flexDirection='column' alignItems='center'>
+        <Typography variant='h4' component='h1'>
+          Tasks
+        </Typography>
+        <ul>
+          {tasks.map(task => {
+            return (
+              <>
+                <li key={task.text}>{task.text}</li>
+              </>
+            );
+          })}
+        </ul>
+      </Box>
     </>
   );
 };
