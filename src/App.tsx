@@ -3,11 +3,16 @@ import Home from './pages/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const App = () => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Home />
+    <QueryClientProvider client={queryClient}>
+      <Home />
+    </QueryClientProvider>
   </ThemeProvider>
 );
 
