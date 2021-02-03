@@ -56,6 +56,11 @@ const Tasks = () => {
   const setCompletedClass = (completed: boolean) =>
     completed ? 'completed' : 'incompleted';
 
+  const findTotalCompleted = (tasks: Array<Task>): number => {
+    const completed = tasks.filter(task => task.completed === true);
+    return completed.length;
+  };
+
   const setAvatarImage = (completed: boolean) => (completed ? moon : sun);
   return (
     <>
@@ -67,28 +72,48 @@ const Tasks = () => {
         ) : (
           <Box>
             {tasks.map((task: any) => (
-              <Box mb={4} key={task.id} display='flex' flexDirection='row'>
-                <Avatar
-                  alt={`${setAvatarImage(task.completed)}`}
-                  src={setAvatarImage(task.completed)}
-                  style={{
-                    width: '30px',
-                    height: '30px',
-                    marginRight: '10px',
-                  }}
-                />
-                <Typography
-                  className={setCompletedClass(task.completed)}
-                  variant='h5'
-                  onClick={() => updateCompleted(task)}
-                >
-                  {task.text}
-                </Typography>
-                <Button onClick={() => removeTask(task)}>Delete</Button>
+              <Box
+                borderBottom={1}
+                borderColor='error.main'
+                width={400}
+                mb={4}
+                key={task.id}
+                display='flex'
+                flexDirection='row'
+                justifyContent='space-between'
+              >
+                <Box display='flex' flexDirection='row'>
+                  <Avatar
+                    alt={`${setAvatarImage(task.completed)}`}
+                    src={setAvatarImage(task.completed)}
+                    style={{
+                      width: '30px',
+                      height: '30px',
+                      marginRight: '10px',
+                    }}
+                  />
+                  <Typography
+                    className={setCompletedClass(task.completed)}
+                    variant='h5'
+                    onClick={() => updateCompleted(task)}
+                  >
+                    {task.text}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Button
+                    color='secondary'
+                    size='large'
+                    onClick={() => removeTask(task)}
+                  >
+                    X
+                  </Button>
+                </Box>
               </Box>
             ))}
           </Box>
         )}
+        {findTotalCompleted(tasks)}
       </Box>
     </>
   );

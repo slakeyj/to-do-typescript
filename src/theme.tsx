@@ -5,6 +5,9 @@ const theme = createMuiTheme({
     primary: {
       main: '#1c2324',
     },
+    error: {
+      main: '#adad31',
+    },
   },
   typography: {
     fontFamily: 'Arial',
