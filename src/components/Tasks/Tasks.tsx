@@ -9,8 +9,7 @@ import sun from '../../img/sun.png';
 import moon from '../../img/moon.png';
 import { Task } from '../../types';
 import './Tasks.css';
-import updateTaskStatus from '../../hooks/updateTaskStatus';
-import deleteTask from '../../hooks/deleteTask';
+import { getTasks, updateTaskStatus, deleteTask } from '../../api/todos';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -21,15 +20,11 @@ const Tasks = () => {
     setIsError(false);
     setIsLoading(true);
     try {
-      const response = await fetch(
-        'https://slakey-todo-server.herokuapp.com/toDos'
-      );
-      const results: Task[] = await response.json();
-      setTasks(results);
+      const data = await getTasks();
+      setTasks(data);
     } catch (error) {
       setIsError(true);
     }
-
     setIsLoading(false);
   };
 
@@ -53,10 +48,10 @@ const Tasks = () => {
     setTasks(updatedTasks);
   };
 
-  const setCompletedClass = (completed: boolean) =>
+  const getCompletedClass = (completed: boolean) =>
     completed ? 'completed' : 'incompleted';
 
-  const findTotalCompleted = (tasks: Array<Task>): number => {
+  const calculateTotalCompleted = (tasks: Task[]): number => {
     const completed = tasks.filter(task => task.completed === true);
     return completed.length;
   };
@@ -93,7 +88,7 @@ const Tasks = () => {
                     }}
                   />
                   <Typography
-                    className={setCompletedClass(task.completed)}
+                    className={getCompletedClass(task.completed)}
                     variant='h5'
                     onClick={() => updateCompleted(task)}
                   >
@@ -113,7 +108,7 @@ const Tasks = () => {
             ))}
           </Box>
         )}
-        {findTotalCompleted(tasks)}
+        {calculateTotalCompleted(tasks)}
       </Box>
     </>
   );
