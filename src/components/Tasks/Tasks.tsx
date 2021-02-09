@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AddTask from '../AddTask';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import ButtonFilters from '../ButtonFilters';
-import sun from '../../img/sun.png';
-import moon from '../../img/moon.png';
 import { Task } from '../../types';
 import './Tasks.css';
 import { getAll, updateStatus, deleteTask } from '../../api/todos';
+import TaskList from '../TaskList';
 
 type Filter = 'All' | 'Active' | 'Completed';
 
@@ -52,9 +48,6 @@ const Tasks = () => {
     setTasks(updatedTasks);
   };
 
-  const getCompletedClass = (completed: boolean) =>
-    completed ? 'completed' : 'incompleted';
-
   const calculateTotalLeft = (tasks: Task[]): string => {
     const completed = tasks.filter(task => task.completed === true);
     const totalCompleted = completed.length;
@@ -75,7 +68,6 @@ const Tasks = () => {
 
   const tasksToDisplay = filterToTasks[filter];
 
-  const setAvatarImage = (completed: boolean) => (completed ? moon : sun);
   return (
     <>
       {isError && <div> Something Went Wrong</div>}
@@ -86,51 +78,13 @@ const Tasks = () => {
         ) : (
           <>
             <ButtonFilters filter={filter} setFilter={setFilter} />
-            <Box>
-              {tasksToDisplay.map((task: any) => (
-                <Box
-                  borderBottom={1}
-                  borderColor='error.main'
-                  width={400}
-                  mb={4}
-                  key={task.id}
-                  display='flex'
-                  flexDirection='row'
-                  justifyContent='space-between'
-                >
-                  <Box display='flex' flexDirection='row'>
-                    <Avatar
-                      alt={`${setAvatarImage(task.completed)}`}
-                      src={setAvatarImage(task.completed)}
-                      style={{
-                        width: '30px',
-                        height: '30px',
-                        marginRight: '10px',
-                      }}
-                    />
-                    <Typography
-                      className={getCompletedClass(task.completed)}
-                      variant='h5'
-                      onClick={() => updateCompleted(task)}
-                    >
-                      {task.text}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Button
-                      color='secondary'
-                      size='large'
-                      onClick={() => removeTask(task)}
-                    >
-                      x
-                    </Button>
-                  </Box>
-                </Box>
-              ))}
-            </Box>
+            <TaskList
+              tasksToDisplay={tasksToDisplay}
+              removeTask={removeTask}
+              updateCompleted={updateCompleted}
+            />
           </>
         )}
-
         <Box display='flex' flexDirection='row'>
           <Box
             mr={4}
