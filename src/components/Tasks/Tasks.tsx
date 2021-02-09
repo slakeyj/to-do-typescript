@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonFilters from '../ButtonFilters';
 import sun from '../../img/sun.png';
 import moon from '../../img/moon.png';
 import { Task } from '../../types';
@@ -85,40 +85,7 @@ const Tasks = () => {
           <CircularProgress />
         ) : (
           <>
-            <Box ml={5}>
-              <ButtonGroup
-                color='primary'
-                variant='text'
-                size='small'
-                aria-label='small outlined button group'
-              >
-                <Button
-                  className={filter === 'All' ? 'active' : ''}
-                  onClick={() => {
-                    setFilter('All');
-                  }}
-                >
-                  All
-                </Button>
-
-                <Button
-                  className={filter === 'Active' ? 'active' : ''}
-                  onClick={() => {
-                    setFilter('Active');
-                  }}
-                >
-                  Active
-                </Button>
-                <Button
-                  className={filter === 'Completed' ? 'active' : ''}
-                  onClick={() => {
-                    setFilter('Completed');
-                  }}
-                >
-                  Completed
-                </Button>
-              </ButtonGroup>
-            </Box>
+            <ButtonFilters filter={filter} setFilter={setFilter} />
             <Box>
               {tasksToDisplay.map((task: any) => (
                 <Box
